@@ -1,0 +1,12 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Bloqué{% endblock %}
+
+{% block content %}
+    <div id="presentation">
+        <div class="social">
+            <h1>Désolé {{ app.user.username }} ...</h1>
+            <p>Vous avez été bloqué par d'administrateur</p>
+        </div>
+    </div>
+{% endblock %}

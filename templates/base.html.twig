@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Gods'War{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {% endblock %}
+    </head>
+    <body>
+    <div id="menu">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <a class="navbar-brand" href="#">Gods'War</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                            {% if app.user.roles is defined  %}
+                                {% if is_granted('ROLE_USER') and app.user.bloque !=1 %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('player') }}">Votre Profil</a>
+                                    </li>
+                                    {% if app.user.partiecours == 0 %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('nouvelle_partie') }}">Jouer</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('afficher_partie', {'id': app.user.partiecours }) }}">Jouer</a>
+                                        </li>
+                                    {% endif %}
+                                {% elseif is_granted('ROLE_ADMIN') %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin') }}">Espace administrateur</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('player') }}">Votre Profil</a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('classement') }}">Classement</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('ch') }}">Chat</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('security_logout')}}">Se déconnecter</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('index') }}">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('security_login') }}">Se connecter</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_registration') }}">S'inscrire</a>
+                                </li>
+                            {% endif %}
+                    </ul>
+                </div>
+            </nav>
+    </div>
+    <div id="container">
+        <div class="jumbotron">
+            <h1>{% block titre %}{% endblock %}</h1>
+            <p>{% block subtitle %}{% endblock %}</p>
+        </div>
+    </div>
+    <div id="container-fluid">
+        <main class="container">
+            {% block body %}
+            {% endblock %}
+        </main>
+    </div>
+    {% block javascripts %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% endblock %}
+
+    {% block script %}{% endblock %}
+    </body>
+</html>

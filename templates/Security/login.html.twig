@@ -1,0 +1,32 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+    <div id="presentation">
+        <div class="container col-lg-6">
+            <div class="social">
+                {% if error %}
+                    <p>Mauvais identifiants</p>
+                {% endif %}
+                <form action="{{ path('security_login') }}" method="post">
+                    <p>Pseudo</p>
+
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="text"  required class="form-control" id="username" name="_username" placeholder="Pseudo" value="{{ last_username }}"/>
+
+                    <p>Mot de passe</p>
+
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" required class="form-control" id="password" placeholder="Mot de passe" name="_password"/>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                    <button class="btn btn-lg btn-primary" type="submit"><strong>Connexion</strong></button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}

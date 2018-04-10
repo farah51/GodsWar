@@ -1,0 +1,27 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Nouvelle Partie{% endblock %}
+
+{% block content %}
+    <div id="presentation">
+    <div class="container col-lg-6">
+        <div class="social">
+            <h1>Nouvelle partie</h1>
+            <form method="post" action="{{ path('creer_partie') }}">
+                <div class="form-group">
+                    <input required type="text" class="form-control" placeholder="Nom de votre partie" name="nom_partie">
+                    <select required name="adversaire" class="form-control">
+                        <option value="">Choisir votre adversaire</option>
+                        {% for joueur in joueurs %}
+                            <option value="{{ joueur.id }}">{{ joueur.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-lg btn-primary" value="Créer la partie">
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}

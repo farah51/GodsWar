@@ -1,0 +1,43 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block content %}
+    <div id="presentation">
+        <div class="container col-lg-6">
+            <div class="social">
+                {% if succes is defined %}
+                    <h1>{{ succes }}</h1>
+                    <a class="btn btn-lg btn-primary" href="{{ path('security_login') }}">Se connecter</a>
+                {% else %}
+                    {{ form_start(form) }}
+                    {% if form_errors(form.username) %}
+                        <p>Ce pseudo est déjà pris</p>
+                    {% endif %}
+                    <p>Pseudo</p>
+                    {{ form_widget(form.username) }}
+                    <br>
+                    {% if form_errors(form.email) %}
+                        <p>Cet Email est déjà pris ou n'est pas valide</p>
+                    {% endif %}
+                    <p>Email</p>
+                    {{ form_widget(form.email) }}
+                    <br>
+                    {% if form_errors(form.password.first) %}
+                        <p>Les mots de passes ne sont pas identitiques</p>
+                    {% endif %}
+                    <p>Mot de passe</p>
+                    {{ form_widget(form.password.first) }}
+                    <br>
+                    <p>Confirmer le mot de passe</p>
+                    {{ form_widget(form.password.second) }}
+                    <br>
+                    <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

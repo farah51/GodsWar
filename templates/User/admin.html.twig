@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Administrateur{% endblock %}
+
+{% block subtitle %}
+    <h1>Bienvenue {{ app.user.username }}</h1>
+    <p>Vous êtes sur l'espace administrateur</p>
+{% endblock %}
+
+{% block body %}
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Infos joueurs</a>
+           <!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Infos parties</a>-->
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Vos informations</a>
+        </div>
+    </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                <div class="table-responsive">
+                    <table style="text-align:center;" class="table table-sm table-hover">
+                        <tr>
+                            <th >ID</th>
+                            <th>Pseudo</th>
+                            <th>Email</th>
+                            <th>Nb de parties</th>
+                            <th>% de victoires</th>
+                            <th>Changer l'état</th>
+                        </tr>
+                        {% for joueur in joueurs %}
+                            <tr>
+                                <th>{{ joueur.joueur.id }}</th>
+                                <td>{{ joueur.joueur.username }}</td>
+                                <td>{{ joueur.joueur.email }}</td>
+                                <td>{{ joueur.nbpartie }}</td>
+                                <td>{{ joueur.ratio }}</td>
+                                <td><form method="post" action="{{ path('changer_etat') }}">
+                                        {% if joueur.joueur.bloque == 0 %}
+                                            <input type="hidden" value="{{ joueur.joueur.id }}" name="bloque">
+                                            <button class ="btn btn-outline-danger btn-sm" type="submit">Bloquer</button>
+                                        {% else %}
+                                            <input type="hidden" value="{{ joueur.joueur.id }}" name="bloque">
+                                            <button class ="btn btn-outline-success btn-sm" type="submit">Débloquer</button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+            </div>
+
+           <!-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            </div>-->
+
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                <div class="table-responsive">
+                    <table style="text-align:center;" class="table table-sm table-hover">
+                        <tr>
+                            <th>Pseudo</th>
+                            <td>{{ app.user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ app.user.email }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+{% endblock %}

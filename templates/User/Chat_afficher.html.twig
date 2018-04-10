@@ -1,0 +1,16 @@
+
+    {% for message in messages %}
+                {% if message.pseudo== app.user.username %}
+
+                    <div class="row">
+                        <span class="col-10">
+                            <span style="color:white;float:right;margin:0;text-align:right;">{{ message.message }}</span>
+                        </span>
+                        <span class="col-2">
+                        </span>
+                    </div>
+                {% else %}
+                    <span style="color:#F5C751;float:left;margin-left:5%;"><strong>{{ message.pseudo }}</strong> : {{ message.message }}</span>
+                    <br>
+                {% endif %}
+    {% endfor %}

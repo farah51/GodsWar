@@ -1,0 +1,219 @@
+/* Padding below the footer and lighter body text */
+* {
+  margin: 0;
+}
+
+body {
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+
+/* perso CSS
+-------------------------------------------------- */
+
+/* ---- NAVBAR ---- */
+
+#texteaction{
+  padding:2%;
+  margin-top:2%;
+  margin-bottom:2%;
+  text-align:center;
+}
+
+#objectifs{
+  text-align:center;padding-top:1%;
+}
+
+.nav-link {
+  margin-left: 1rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+
+  text-decoration: underline  #F5C751!important;
+
+}
+
+.bg-dark {
+  background-color:black!important;
+
+}
+
+.navbar-brand img {
+  height: 3rem;
+}
+
+.dropdown-menu {
+  margin-left: 0.45rem;
+  text-transform: uppercase;
+  background: black;
+}
+
+.dropdown-menu a{
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dropdown-menu:hover{
+  text-decoration: underline  #F5C751!important;
+}
+
+.dropdown-menu img{
+  padding-right: 10px;
+}
+
+.dropdown-toggle img {
+  padding-right: 10px;
+}
+
+/* ---- END NAVBAR ---- */
+hr {
+  margin-bottom: 3rem;
+  width: 50%;
+  height: 0.1rem;
+   background-image:linear-gradient(to right, #F5C751, #B4812C, #F5C751 ,#C3882C)!important;
+}
+
+.btn-primary {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+  color: black;
+  text-transform: uppercase;
+  border: 0!important;
+  background-image:linear-gradient(to right, #F5C751, #F5C751 ,#C3882C)!important;
+}
+
+.btn-primary:hover{
+  background-image:linear-gradient(to top , #B4812C,#F5C751)!important;
+  color: black;
+  border: none!important;
+}
+
+.btn {
+  border: 0!important;
+  border-radius: 0!important;
+}
+
+.promo {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+  border:  0.3rem solid transparent;
+  -moz-border-image: -moz-linear-gradient(left, #F5C751, #F5C751 ,#C3882C);
+  -webkit-border-image: -webkit-linear-gradient(left, #F5C751, #F5C751 ,#C3882C);
+
+}
+
+#presentation {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: black;
+  -moz-box-shadow: 0px 10px 5px 0px #656565;
+  -webkit-box-shadow: 0px 10px 5px 0px #656565;
+  -o-box-shadow: 0px 10px 5px 0px #656565;
+  box-shadow: 0px 10px 5px 0px #656565;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+}
+
+#presentation h1 {
+  text-align: center;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#presentation a {
+  margin-top: 2rem;
+  margin-right: 1.5rem;
+  margin-left: 1.5rem;
+}
+
+.social p {
+
+  background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.social {
+  text-align: center;
+  margin: 0 auto;
+}
+
+#dropdownMenu1{
+background: none;
+border: none;
+}
+
+.end {
+ width: 30%;
+}
+
+.form-control {
+  border-radius: 0;
+  background: none;
+  border:  0.1rem solid transparent;
+  margin-bottom: 1rem;
+  -moz-border-image: -moz-linear-gradient(left, #F5C751, #F5C751 ,#C3882C);
+  -webkit-border-image: -webkit-linear-gradient(left, #F5C751, #F5C751 ,#C3882C);
+}
+
+
+.form-control:focus {
+  color:white;
+  background-color: black!important;
+  outline: 0;
+  box-shadow: none;
+}
+
+summary{
+  color: black  /*#F5C751*/;
+  margin-bottom: 2rem;
+}
+
+.langues {
+  margin-bottom: 2rem;
+}
+
+table {
+  padding: 2rem;
+ 
+  margin:0 auto;
+  display: block;
+}
+
+td {
+  color: #F5C751;
+
+}
+
+.titre {
+  text-align: center;
+  padding: 0.5rem;
+  color: black;
+  background-image:linear-gradient(to right, #F5C751, #B4812C, #F5C751 ,#C3882C);
+  text-transform: uppercase;
+margin-top: 2rem;
+margin-right: 2rem;
+margin-left: 2rem;
+margin-bottom: -1rem;
+}
+
+.first{
+  text-align: center;
+  
+}
+
+.vous {
+
+  background-image:linear-gradient(to right, #F5C751, #B4812C, #F5C751 ,#C3882C);
+  text-transform: uppercase;
+
+}

@@ -1,0 +1,74 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Changer vos informations{% endblock %}
+
+{% block content %}
+    <div id="presentation">
+        <div class="container col-lg-6">
+            <div class="social">
+                <h1>Changer vos informations</h1>
+                <div>
+                    {% if message is defined %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                </div>
+
+                    <div>
+                        {% if form_pseudo is defined %}
+                            {{ form_start(form_pseudo) }}
+                            {% if form_errors(form_pseudo.username) %}
+                                <br>
+                                <p>Ce pseudo est déjà pris</p>
+                            {% endif %}
+                            <br>
+                            <p>Pseudo</p>
+                            {{ form_widget(form_pseudo.username) }}
+                            <button class="btn btn btn-lg btn-primary" type="submit">Valider</button>
+                            {{ form_end(form_pseudo) }}
+                        {% else %}
+                            <a href="{{ path('changer_pseudo') }}"><button type="submit" class="btn btn-lg btn-primary">Changer de pseudo</button></a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if form_email is defined %}
+                            {{ form_start(form_email) }}
+                            {% if form_errors(form_email.email) %}
+                                <br>
+                                <p>Cet Email est déjà pris ou n'est pas valide</p>
+                            {% endif %}
+                            <br>
+                            <p>Email</p>
+                            {{ form_widget(form_email.email) }}
+                            <button class="btn btn-lg btn-primary" type="submit">Valider</button>
+                            {{ form_end(form_email) }}
+                        {% else %}
+                            <a href="{{ path('changer_email') }}"><button type="submit" class="btn btn-lg btn-primary">Changer de mail</button></a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if form_mdp is defined %}
+                            {{ form_start(form_mdp) }}
+                            {% if form_errors(form_mdp.password.first) %}
+                                <br>
+                                <p>Les mots de passes ne sont pas identitiques</p>
+                            {% endif %}
+                            <br>
+                            <p>Mot de passe</p>
+                            {{ form_widget(form_mdp.password.first) }}
+                            <br>
+                            {{ form_widget(form_mdp.password.second) }}
+                            <br>
+                            <button class="btn btn btn-lg btn-primary" type="submit">Valider</button>
+                            {{ form_end(form_mdp) }}
+                        {% else %}
+                            <a href="{{ path('changer_mdp') }}"><button type="submit" class="btn btn-lg btn-primary">Changer le mot de passe</button></a>
+                        {% endif %}
+                    </div>
+
+                <a class="nav-link" href="{{ path('player') }}">Retour</a>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Espace membre{% endblock %}
+
+{% block content %}
+<div id="presentation">
+    <div class="social">
+        <h1>Bienvenue {{ app.user.username }} !</h1>
+        {% if app.user.partiecours == 0 %}
+            <a href="{{ path('nouvelle_partie') }}"><button class="btn btn-lg btn-primary">JOUER</button></a>
+        {% endif %}
+
+        {% if app.user.partiecours != 0 and ja != "" %}
+            <div class="social">
+                <div class="row">
+                    <div class="col-lg-4 ">
+                    </div>
+                    <div class="col-lg-4 ">
+                        <p>Vous avez une partie nommée <strong>{{ partie.nom }}</strong> en cours contre <strong>{{ ja.username }}</strong> </p>
+                    </div>
+                    <div class="col-lg-4 container">
+                        <span><a href="{{ path('afficher_partie', {'id': app.user.partiecours }) }}"><button class="btn btn-lg btn-primary">REJOINDRE</button></a></span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-8 container">
+        <table class="first table-responsive">
+            <tr>
+                <td class="col-1">Pseudo</td>
+                <td class="col-1">Email</td>
+                <td class="col-4">Nb de parties</td>
+                <td class="col-2">victoires</td>
+                <td class="col-2">défaites</td>
+                <td class="col-2">ratio</td>
+            </tr>
+            <tr>
+                <td class="col-1">{{ app.user.username }}</td>
+                <td class="col-1">{{ app.user.email }}</td>
+                <td class="col-4"><strong>{{ nbpartie }}</strong></td>
+                <td class="col-2"><strong>{{ app.user.victoire }}</strong></td>
+                <td class="col-2"><strong>{{ app.user.defaite }}</strong></td>
+                <td class="col-2"><strong>{{ ratio }}</strong></td>
+            </tr>
+        </table>
+        </div>
+    <div class="social">
+        <a href="{{ path('changer_infos') }}"><button class="btn btn-sm btn-primary">Changer vos informations</button></a>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+

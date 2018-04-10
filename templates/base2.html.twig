@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Gods'War{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="icon" href="{{ asset('img/favicon.ico') }}">
+        <meta name="description" content="Promotion website of Gods'war game by HELIOS">
+        <meta name="author" content="Helios">
+        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+        {% block stylesheets %}
+            <link href="{{ asset('dist/css/bootstrap.css') }}" rel="stylesheet">
+            <link href="{{ asset('style_fin.css') }}" rel="stylesheet">
+            <style>
+                @font-face {
+                    src: url( {{ asset('img/CAESAR.TTF') }}) format("TTF");
+                    src: url({{ asset('img/CAESAR.woff2') }}) format("woff2");
+                    font-family: 'CAESAR';
+                }
+
+                /* Padding below the footer and lighter body text */
+                * {
+                    margin: 0;
+                }
+
+                body {
+                    margin: 0 auto;
+                    font-family: 'Poppins', sans-serif;
+                }
+
+                h1 {
+                    font-family: 'CAESAR'!important;
+                }
+            </style>
+        {% endblock %}
+
+    </head>
+    <body>
+
+    {% block menu %}
+    <header>
+            <nav style="background-color:black;" class="navbar navbar-collapse collapse-right navbar-expand-md navbar-dark">
+                <div class="container">
+                <a class="navbar-brand" href="{{ path('index') }}"><img src="{{ asset('img/logo.png') }}"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                            {% if app.user.roles is defined  %}
+                                {% if is_granted('ROLE_USER') and app.user.bloque !=1 %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('player') }}">Votre Profil</a>
+                                    </li>
+                                    {% if app.user.partiecours == 0 %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('nouvelle_partie') }}">Jouer</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('afficher_partie', {'id': app.user.partiecours }) }}">Jouer</a>
+                                        </li>
+                                    {% endif %}
+                                {% elseif is_granted('ROLE_ADMIN') %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin') }}">Espace administrateur</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('player') }}">Votre Profil</a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('classement') }}">Classement</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('ch') }}">Chat</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('regles') }}">Règles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('security_logout')}}">Se déconnecter</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('index') }}">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('security_login') }}">Se connecter</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('user_registration') }}">S'inscrire</a>
+                                </li>
+                            {% endif %}
+                    </ul>
+                </div>
+                </div>
+            </nav>
+    </header>
+    {% endblock %}
+
+    <main role="main">
+
+        {% block content %}
+            <div id="presentation">
+                <div class="container col-lg-6">
+                    <h1>Mettez les dieux de votre côté</h1>
+                    <div class="social">
+                        <a class="btn btn-lg btn-primary" href="{{ path('security_login') }}">connexion</a>
+                        <a class="btn btn-lg btn-primary" href="{{ path('user_registration') }}">inscription</a>
+                    </div>
+                    <div class="embed-responsive embed-responsive-16by9 promo">
+                        <iframe class="embed-responsive-item" width="500" height="281" src="https://www.youtube.com/embed/gjQpIY2fWTs?ecver=2" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            </div>
+        {% endblock %}
+
+        {% block footer %}
+            <div id="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="social">
+                            <a href="https://www.facebook.com/GodsWarGame/" target="_blank"><img src="{{ asset('img/social_icon/facebook.png') }}" alt="facebook"></a>
+                            <a href="https://twitter.com/GodsWarGame/" target="_blank"><img src="{{ asset('img/social_icon/twitter.png') }}"></a>
+                            <a href="https://www.youtube.com/channel/UC5VTogIeCsHn-HCxSz_qeFA" target="_blank"><img src="{{ asset('img/social_icon/youtube.png') }}" alt="youtube"></a>
+                            <a href="https://www.instagram.com/godswargame/" target="_blank"><img src="{{ asset('img/social_icon/insta.png') }}" alt="instagram"></a>
+                        </div>
+                    </div>
+                    <footer>
+                        <p>&copy;2018 HELIOS. TOUS DROITS RÉSERVÉS.<br>
+                            Toutes les marques citées appartiennent à leur propriétaire.</p>
+                    </footer>
+                    <div class="helios">
+                        <img src="{{ asset('img/logo_agency_black') }}" />
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+    </main>
+
+    {% block javascripts %}
+        <script>window.jQuery || document.write('<script src="{{ asset('assets/js/vendor/jquery-slim.min.js') }}"><\/script>')</script>
+        <script src="{{ asset('assets/js/vendor/popper.min.js') }}"></script>
+        <script src="{{ asset('dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/vendor/holder.min.js') }}"></script>
+    {% endblock %}
+
+    {% block script %}
+    {% endblock %}
+
+    </body>
+</html>

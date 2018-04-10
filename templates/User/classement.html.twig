@@ -1,0 +1,39 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Classement{% endblock %}
+
+{% block content %}
+
+<div id="presentation">
+    <div class="col-lg-5 container">
+        <h1>Classement</h1>
+        <table class="table-responsive">
+            <tr class="titre">
+                <th class="col">#</th>
+                <th  class="col">Pseudo</th>
+                <th  class="col">% de victoires</th>
+                <th  class="col">Nb de parties</th>
+            </tr>
+            {% for joueur in joueurs %}
+                    {% if app.user.username == joueur.nom %}
+                        <tr class="vous">
+                        <th style="color:black;" class="col">{{ loop.index }}</th>
+                        <td style="color:black;" class="col">{{ joueur.nom }}</td>
+                        <td  style="color:black;"class="col">{{ joueur.ratio }}</td>
+                        <td  style="color:black;"class="col">{{ joueur.nb }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                        <th class="col" style="color:white;">{{ loop.index }}</th>
+                            <td class="col">{{ joueur.nom }}</td>
+                            <td class="col">{{ joueur.ratio }}</td>
+                            <td class="col">{{ joueur.nb }}</td>
+                        </tr>
+                    {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+

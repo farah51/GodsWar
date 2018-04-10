@@ -1,0 +1,467 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Partie {{ partie.nom }} {% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('dist/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('style3.css') }}" rel="stylesheet">
+    <style>
+        @font-face {
+            src: url( {{ asset('img/CAESAR.TTF') }}) format("TTF");
+            src: url({{ asset('img/CAESAR.woff2') }}) format("woff2");
+            font-family: 'CAESAR';
+        }
+
+        /* Padding below the footer and lighter body text */
+        * {
+            margin: 0;
+        }
+
+        body {
+            margin: 0 auto;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-family: 'CAESAR'!important;
+        }
+
+
+
+        li{
+            list-style-type: none;
+        }
+
+
+        input:hover{
+            opacity:0.7;
+        }
+
+        input[type="checkbox"][id^="cb"] {
+            display: none;
+        }
+
+        input[type="radio"][id^="cb"] {
+            display: none;
+        }
+
+        label {
+            border: 1px solid grey;
+            padding: 2px;
+            display: block;
+            position: relative;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        label:before {
+            background-color: white;
+            color: white;
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            border: 1px solid goldenrod;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 28px;
+            transition-duration: 0.4s;
+            transform: scale(0);
+        }
+
+        label:hover{
+            border: 3px solid goldenrod;
+            transition-duration: 0.6s;
+
+        }
+
+        label img {
+            height: 100px;
+            width: 100px;
+            transition-duration: 0.2s;
+            transform-origin: 50% 50%;
+        }
+
+        :checked + label {
+            border-color: goldenrod;
+        }
+
+        :checked + label:before {
+            content: "✓";
+            background-image:linear-gradient(to right, #F5C751, #B4812C, #F5C751 ,#C3882C);
+            transform: scale(1);
+        }
+
+        :checked + label img {
+            transform: scale(0.9);
+            box-shadow: 0 0 5px #333;
+            opacity:0.5;
+            z-index: -1;
+        }
+    </style>
+{% endblock %}
+
+    {% block script %}
+
+        <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+
+                   <script>
+                        setInterval(function(){
+
+                            $.ajax({
+                                url: '{{ path('get_infos', {'id': partie.id }) }}',
+                                method : "POST",
+                                success: function(data) {
+
+                                    var id = '{{ app.user.id }}';
+
+                                    if(data == id){
+                                        {% for action in action_dispo %}
+                                            {% if action.dispo == 0 and choix_paire == 0 and choix_cadeau ==0 %}
+                                            window.location.reload();
+                                            {% endif %}
+                                        {% endfor %}
+                                        console.log(data,id)
+                                    }else{
+                                        {% if message_fin != 0 and message_fin == "Aucun vainqueur" %}
+                                        window.location.reload();
+                                        {% endif %}
+                                        console.log(data,id);
+                                    }
+
+                                }
+                            })
+                        },5000);
+
+                        setInterval(
+                            function(){
+                                $.ajax({
+                                    url: '{{ path('get_vainqueur', {'id': partie.id }) }}',
+                                    method : "POST",
+                                    success: function(data) {
+                                        if(data == true){
+                                            window.location.reload();
+                                            console.log(data)
+                                        }else{
+                                            console.log(data);
+                                        }
+
+                                    }
+                                })
+                            }
+                            ,5000);
+                    </script>
+    {% endblock %}
+
+   {% block content %}
+<div id="fond_jeu" style="background: url({{ asset('img/marbre_vecto.png')}});">
+    <div class="social">
+        <div class="row">
+            <div id="objectifs" class="col">
+                    {% for carte in objectifs %}
+                            <span style="width:7rem; height:10rem; display:inline-block;background: url({{ asset('img/gods/' ~ carte.nom ~ '.png')}});background-size: 7rem 10rem;">
+                                <div style="height:1rem; line-height:1rem;" class="row">
+                                    <div class="col-12">
+                                        {% if carte.ja != 0 %}
+                                            {% for i in 1..carte.ja %}
+                                                <span style="background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));" class="badge badge-info">{{ carte.valeur }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div style="height:2rem;line-height:3rem;" class="row">
+                                    <div class="col-12">
+                                        {% if carte.jeton == 'ja' %}
+                                            <img style="width:2rem;" src="{{ asset('img/pion.png') }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row" style="height:3rem;line-height:3rem;">
+                                    <div class="col-12">
+                                         {% if carte.jeton == 'autre' %}
+                                             <img style="width:2rem;" src="{{ asset('img/pion.png') }}">
+                                         {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row" style="height:2rem;line-height:-2rem;">
+                                    <div class="col-12">
+                                        {% if carte.jeton == 'j'%}
+                                            <img style="width:2rem;" src="{{ asset('img/pion.png') }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row" style="height:1rem;">
+                                    <div class="col-12">
+                                         {% if carte.j != 0 %}
+                                             {% for i in 1..carte.j %}
+                                                 <span style="background: -webkit-gradient(linear, left top, left bottom, from(#F5C751), to(#B4812C));" class="badge badge-success">{{ carte.valeur }}</span>
+                                             {% endfor %}
+                                         {% endif %}
+                                    </div>
+                                </div>
+                            </span>
+                    {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3" id="infos_partie">
+            {% if j1.username is defined %}
+                <ul class="promo" style="margin-left:5%;padding:0;margin-top:8.5%;line-height:130%;">
+                    <li>Partie n°{{ partie.id }} : {{ partie.nom }}</li>
+                        {% if j1.username == app.user.username %}
+                                <li>Contre j2 :  {{ j2.username }}</li>
+                                <li>Vous êtes j1 {{ j1.username }}</li>
+                            {% else %}
+                                <li>Votre adversaire : {{ j1.username }} - j1</li>
+                                <li>Vous : {{ j2.username }} - j2</li>
+                        {% endif %}
+                    <li>Tour : <span id="tour">{{ partie.tour }}</span></li>
+                    <li>Manche : {{ partie.manche }}</li>
+                </ul>
+            {% endif %}
+            </div>
+
+            <div id="texteaction" class="col-6" style="background:url({{ asset('img/marbre3.png')}})">
+
+                {% if message_fin != null %}
+                    {% if score !="" or score is defined %}
+                        <span>Score J1 = {{ score.j1 }} contre </span><span> Score J2 = {{ score.j2 }}</span>
+                        <br>
+                    {% endif %}
+                    {% if message_fin == 'Aucun vainqueur' %}
+                        <li>{{ message_fin }}</li>
+                        <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                            <input type="submit" value="Passer à la manche suivante" name="manche_suivante" class="btn btn-primary">
+                        </form>
+                    {% else %}
+                        <h4>{{ message_fin }}</h4>
+                        <br>
+                        <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                            <input type="submit" value="Retour à votre profil" name="valid_fin" class="btn btn-primary">
+                        </form>
+                    {% endif %}
+                    {% else %}
+                        {% for action in action_dispo %}
+                            {% if action.nom == "dissimulation" and action.dispo==1 %}
+                                <li>A vous de jouer</li>
+                            {% elseif action.nom == "dissimulation" and action.dispo==0 %}
+                                <li>Vous n'avez pas la main, patientez le tour de votre adversaire ...</li>
+                            {% endif %}
+                        {% endfor %}
+                {% endif %}
+
+
+
+                {% if choix_cadeau != 0 %}
+                    <h1>Cadeau</h1>
+                <li>Choississez une carte de votre adversaire à placer sur votre plateau</li>
+                <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                    {% for choix in choix_cadeau %}
+                        <input type="radio" id="cb{{ choix.id }}" value="{{ choix.id }}" name="carte_cadeau_choisie">
+                        <label style="display:inline-block;" for="cb{{ choix.id }}"><img style="width:6rem; height:10rem;" src="{{ asset('img/objets/' ~ choix.nom ~ '.png')}}" /></label>
+                    {% endfor %}
+                    <br><input type="submit" class="btn btn-sm btn-primary" value="Valider action">
+                </form>
+                {% endif %}
+
+                {% if choix_paire != 0 %}
+                    <h1>Concurrence</h1>
+                    <li>Choississez une paire l'autre sera attribuée à votre adversaire</li>
+                    <form style="display:inline-block;" method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                        {% for choix in choix_paire %}
+                            {% if choix.paire == 1 %}
+                                <span class="text-white" style="width:6rem; height:10rem; display:inline-block;background: url({{ asset('img/objets/' ~ choix.nom ~ '.png')}});background-size: 6rem 10rem;"></span>
+                            {% endif %}
+                        {% endfor %}<br>
+                        <input type="hidden" value="p1" name="choix_paire">
+                        <input type="submit" value="Paire1" class="btn btn-sm btn-primary">
+                    </form>
+                    <form method="post" style="display:inline-block;" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                        {% for choix in choix_paire %}
+                            {% if choix.paire == 2 %}
+                                <span class="text-white" style="width:6rem; height:10rem; display:inline-block;background: url({{ asset('img/objets/' ~ choix.nom ~ '.png')}});background-size: 6rem 10rem;"></span>
+                            {% endif %}
+                        {% endfor %}<br>
+                        <input type="hidden" value="p2" name="choix_paire">
+                        <input type="submit" value="Paire 2" class="btn btn-sm btn-primary">
+                    </form>
+                {% endif %}
+
+                {% if action_choisie == 'dissimulation' %}
+                    <h3 style="font-family: 'CAESAR'"><strong>SECRET</strong> : Choissisez <strong>1</strong> carte</h3>
+                    <li id="informations">Elle sera dissimulée et vous sera attribuée en fin de manche</li>
+                    <img style="width:2rem;border-radius:10%;" src="{{ asset('img/action/dissimulation.png')}}">
+                    <br>
+                    <a href="{{ path('afficher_partie', {'id': partie.id }) }}">Retour</a>
+                {% elseif action_choisie == 'disparition' %}
+                    <h3 style="font-family: 'CAESAR'"><strong>DISPARITION</strong> : Choissisez <strong>2</strong> cartes</h3>
+                    <li>Elles seront écartées cette manche</li>
+                    <img style="width:2rem;border-radius:10%;" src="{{ asset('img/action/disparition.png')}}">
+                    <br>
+                    <a href="{{ path('afficher_partie', {'id': partie.id }) }}">Retour</a>
+                {% elseif action_choisie == 'cadeau' %}
+                    <h3 style="font-family: 'CAESAR'"><strong>CADEAU</strong> : Choissisez <strong>3</strong> cartes</h3>
+                    <li>L'adversaire choisira une des cartes, les autres vous seront attribuées</li>
+                    <img style="width:2rem;border-radius:10%;" src="{{ asset('img/action/cadeau.png')}}">
+                    <br>
+                    <a href="{{ path('afficher_partie', {'id': partie.id }) }}">Retour</a>
+                {% elseif action_choisie == 'concurrence' %}
+                    <h3 style="font-family: 'CAESAR'"><strong>CONCURRENCE</strong> : Choissisez <strong>2 paires</strong> de cartes</h3>
+                    <li>L'adversaire choisit une paire qui lui sera attribuée, l'autre vous sera attribuée</li>
+                    <li>Séléctionnez bien <strong>4</strong> cartes différentes, 2 pour P1 et 2 pour P2</li>
+                    <img style="width:2rem;border-radius:10%;" src="{{ asset('img/action/concurrence.png')}}">
+                    <br>
+                    <a href="{{ path('afficher_partie', {'id': partie.id }) }}">Retour</a>
+                {% endif %}
+            </div>
+
+            <div class="col-3" id="pioche">
+                <div style="width:7rem; height:10rem; display:inline-block;text-align:center;background: url({{ asset('img/carte_verso.png')}});background-size: 7rem 10rem;border-radius:5px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2" id="actions_dispos">
+                    <li>Actions adverses</li>
+                    {% for action in action_dispo_adverse %}
+                        {% if action.etat ==1 %}
+                            <img style="margin:0;opacity:0.2;width:2rem;" src="{{ asset('img/action/' ~ action.nom ~ '.png')}}">
+                        {% elseif action.etat ==0 %}
+                            <img style="margin:0;width:2rem;" src="{{ asset('img/action/' ~ action.nom ~ '.png')}}">
+                        {% endif %}
+                    {% endfor %}
+
+                <hr style="margin-top:1rem; margin-bottom:1rem;margin-left:25%;">
+
+                <li>Vos actions</li>
+                    {% for action in action_dispo %}
+
+                        {% if action.nom == 'dissimulation' %}
+                                <form style="display:inline-block;" method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                                    <div class="form-group">
+                                        <input type="hidden" value="dissimulation" name="action">
+                                        {% if action.dispo == 0 or action.etat == 1 or choix_paire != 0 or choix_cadeau !=0 %}
+                                            <input style="opacity:0.2;width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" disabled >
+                                        {% elseif action.dispo == 1  %}
+                                            <input id="btn-action" style="width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" >
+                                        {% endif %}
+                                    </div>
+                                </form>
+                        {% elseif action.nom == 'disparition' %}
+                                <form style="display:inline-block;" method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                                    <div class="form-group">
+                                        <input type="hidden" value="disparition" name="action">
+                                        {% if action.dispo == 0 or action.etat == 1 or choix_paire != 0 or choix_cadeau !=0 %}
+                                            <input style="opacity:0.2;width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" disabled >
+                                        {% elseif action.dispo == 1 %}
+                                            <input id="btn-action" style="width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" >
+                                        {% endif %}
+                                    </div>
+                                </form>
+                        {% elseif action.nom == 'cadeau' %}
+                            <br>
+                            <form style="display:inline-block;" method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                                <div class="form-group">
+                                    <input type="hidden" value="cadeau" name="action">
+                                    {% if action.dispo == 0 or action.etat == 1 or choix_paire != 0 or choix_cadeau !=0 %}
+                                        <input style="opacity:0.2;width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" disabled >
+                                    {% elseif action.dispo == 1 %}
+                                        <input style="width:4rem;" id="btn-action" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" >
+                                    {% endif %}
+                                </div>
+                            </form>
+                        {% elseif action.nom == 'concurrence' %}
+                                <form style="display:inline-block;" method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                                    <div class="form-group">
+                                        <input type="hidden" value="concurrence" name="action">
+                                        {% if action.dispo == 0 or action.etat == 1 or choix_paire != 0 or choix_cadeau !=0 %}
+                                            <input style="opacity:0.2;width:4rem;" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" disabled >
+                                        {% elseif action.dispo == 1 %}
+                                            <input style="width:4rem;" id="btn-action" src={{ asset('img/action/' ~ action.nom ~ '.png')}} type=image align="middle" >
+                                        {% endif %}
+                                    </div>
+                                </form>
+                        {% endif %}
+
+                    {% endfor %}
+
+            </div>
+            <div id="main" class="col-8" style="text-align:center;">
+
+                {% if action_choisie=='dissimulation' %}
+                    <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                        {% for carte in main %}
+                            {# {{ carte.nom }} #}
+                            <input type="radio" id="cb{{ carte.id }}" value="{{ carte.id }}" name="carte_dissimulee_selectionnee">
+                            <label style="display:inline-block;" for="cb{{ carte.id }}"><img style="width:6rem; height:9.5rem;" src="{{ asset('img/objets/' ~ carte.nom ~ '.png')}}" /></label>
+                        {% endfor %}
+                        <input type="submit" class="btn btn-sm btn-primary" value="Valider">
+                    </form>
+                {% elseif action_choisie=='disparition' %}
+                    <div id="disparition">
+                    <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                        {% for carte in main %}
+                                <input type="checkbox" id="cb{{ carte.id }}" name="cartes_disparues[]" value="{{ carte.id }}" />
+                                <label style="display:inline-block;" for="cb{{ carte.id }}"><img style="width:6rem; height:10rem;" src="{{ asset('img/objets/' ~ carte.nom ~ '.png')}}" /></label>
+                        {% endfor %}
+                        <input type="submit" class="btn btn-sm btn-primary" value="Valider">
+                    </form>
+                    </div>
+                {% elseif action_choisie=='cadeau' %}
+                    <div id="cadeau">
+                        <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                            {% for carte in main %}
+                                <input id="cb{{ carte.id }}" type="checkbox" name="cartes_cadeau[]" value="{{ carte.id }}"/>
+                                <label style="display:inline-block;" for="cb{{ carte.id }}"><img style="width:6rem; height:10rem;" src="{{ asset('img/objets/' ~ carte.nom ~ '.png')}}" /></label>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-sm btn-primary" value="Valider">
+                        </form>
+                    </div>
+                {% elseif action_choisie=='concurrence' %}
+                    <div id="concurrence">
+                        <form method="post" action="{{ path('afficher_partie', {'id': partie.id }) }}">
+                            {% for carte in main %}
+                                <span style="display:inline-block;color:white; width: 6rem; height:10rem; background: url({{ asset('img/objets/' ~ carte.nom ~ '.png')}}); background-size: 6rem 10rem;" for="{{ carte.id }}">
+                                        <p style="margin-top:0;">P1 :<input id="{{ carte.id }}"  class="max2" type="checkbox" name="paire1_concurrences[]" value="{{ carte.id }}"/></p>
+                                        <p style="margin-bottom:0;">P2 :<input id="{{ carte.id }}" class="max2" type="checkbox" name="paire2_concurrences[]" value="{{ carte.id }}"/></p>
+                                </span>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-sm btn-primary" value="Valider">
+                        </form>
+
+                    </div>
+                {% else %}
+                    {% for carte in main %}
+                        <span class="text-white" style="width:6rem; height:10rem; display:inline-block;background: url({{ asset('img/objets/' ~ carte.nom ~ '.png')}});background-size: 6rem 10rem;"></span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-2" >
+                {% if carte_dissimulee %}
+                    <br>
+                    <li>Carte secret</li>
+                    <span class="text-white" style="width:2.5rem; height:3.5rem; display:inline-block;background: url({{ asset('img/objets/' ~ carte_dissimulee ~ '.png')}});background-size: 2.5rem 3.5rem;"></span><br>
+                {% endif %}
+
+                {% if cartes_disparues %}
+                    <br>
+                    <li>Cartes disparues</li>
+                    {% for carte in cartes_disparues %}
+                        <span class="text-white" style="display: inline-block; width:2.5rem; height:3.5rem;background: url({{ asset('img/objets/' ~ carte ~ '.png')}});background-size: 2.5rem 3.5rem;"></span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+   {% endblock %}
+{% block footer %}
+{% endblock %}
